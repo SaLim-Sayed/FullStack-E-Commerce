@@ -15,15 +15,19 @@ import {
 } from "@chakra-ui/react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { useQuery } from "react-query";
 import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 import { URL } from "../../store/type";
-
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../app/features/cartSlice";
+import { selectNetwork } from "../../app/features/networkSlice";
 const Product = () => {
+  const { isOnline } = useSelector(selectNetwork);
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getProductList = async () => {
     const { data } = await axios.get(
@@ -34,7 +38,7 @@ const Product = () => {
 
   const { isLoading, data } = useQuery(["products", id], getProductList);
 
-  if (isLoading)
+  if (isLoading || !isOnline)
     return (
       <Center maxW="sm" mx={"auto"} my={20}>
         <ProductDetailsSkeleton />
@@ -66,17 +70,20 @@ const Product = () => {
           w={"lg"}
           m={2}
         >
-     <Stack bg={"gray.200"} alignItems={"center"} >
-         <Image
-            src={`${URL}${data?.data?.attributes?.thumbnail?.data?.attributes?.url}`}
-            alt={data?.data?.attributes?.title}
-            borderRadius="lg"
-            objectFit="contain"
-            maxW={{ base: "100%", sm: "200px" }}
-            m={"auto"}
-            p={4}
-          />
-         </Stack>
+          <Stack bg={"gray.200"} alignItems={"center"}>
+            <Image
+              src={
+                data?.data?.attributes?.thumbnail?.data?.attributes?.formats
+                  ?.thumbnail?.url
+              }
+              alt={data?.data?.attributes?.title}
+              borderRadius="lg"
+              objectFit="contain"
+              maxW={{ base: "100%", sm: "200px" }}
+              m={"auto"}
+              p={4}
+            />
+          </Stack>
 
           {/* <Divider orientation="vertical" h={"200px"} my={"auto"} /> */}
           <Stack>
@@ -108,6 +115,9 @@ const Product = () => {
                 }}
                 color={"white"}
                 textTransform={"uppercase"}
+                onClick={() => {
+                  dispatch(addToCart(data?.data));
+                }}
               >
                 Add to cart
               </Button>

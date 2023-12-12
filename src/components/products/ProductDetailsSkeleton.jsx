@@ -18,7 +18,7 @@ const ProductDetailsSkeleton = () => {
   const goBack = () => navigate(-1);
 
   return (
-<Box w={"50%"} minW={{sm:"400px",base:"100%"}} mx={"auto"}>
+    <Box w={"50%"} minW={{ sm: "400px", base: "100%" }} mx={"auto"}>
       <Flex
         alignItems={"center"}
         maxW="sm"
@@ -37,16 +37,21 @@ const ProductDetailsSkeleton = () => {
           overflow="hidden"
           variant="outline"
           p={4}
-          m={2} w={"100%"}
+          m={2}
+          w={"100%"}
         >
-          <Skeleton mx={"auto"} h={"200px"} minW={{sm:"50%",base:"100%"}} />
+          <Skeleton
+            mx={"auto"}
+            h={"200px"}
+            minW={{ sm: "50%", base: "100%" }}
+          />
           <Stack mx={"auto"}>
             <CardBody>
               <SkeletonText
                 mt="4"
                 noOfLines={1}
                 spacing="4"
-                w={"100%"} 
+                w={"100%"}
                 mx={"2px"}
               />
               <SkeletonText

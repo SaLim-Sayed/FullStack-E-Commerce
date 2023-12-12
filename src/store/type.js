@@ -1,1 +1,1 @@
-export const URL = import.meta.env.VITE_SERVER_URL;
+export const URL = "https://salim-store-ecommerce-strapi-v1.onrender.com";

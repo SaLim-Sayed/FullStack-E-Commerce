@@ -5,7 +5,10 @@ import axios from "axios";
 import { URL } from "../store/type";
 import { useQuery } from "react-query";
 import ProductSkeleton from "../components/products/ProductSkeleton";
+import { useSelector } from "react-redux";
+import { selectNetwork } from "../app/features/networkSlice";
 const Products = () => {
+  const { isOnline } = useSelector(selectNetwork);
   const getProductList = async () => {
     const { data } = await axios.get(
       `${URL}/api/products?populate=thumbnail,category&sort=createdAt:DESC`
@@ -15,7 +18,7 @@ const Products = () => {
 
   const { data, isLoading } = useQuery("products", () => getProductList());
 
-  if (isLoading)
+  if (isLoading || !isOnline)
     return (
       <Grid
         margin={30}

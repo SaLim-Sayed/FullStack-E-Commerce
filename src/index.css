@@ -3,13 +3,16 @@
 @tailwind utilities;
 
 @layer components {
-  .app-navbar {
-    @apply bg-slate-600 p-4 text-white;
+  .app-navbar-dark, .app-navbar-light{
+    @apply bg-slate-600   ;
+  }
+
+  .app-navbar-dark .active{
+    @apply  bg-teal-100  text-black  px-3 py-1 rounded-xl
+  }
+  .app-navbar-light .active{
+    @apply  bg-teal-600 text-white  px-3 py-1 rounded-xl
   }
 }
 
-.app-navbar .active {
-  background-color: #283541;
-  color: #149eca;
-  border-radius: 1.3rem;
-}
+ 
